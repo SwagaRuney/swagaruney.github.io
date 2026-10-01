@@ -100,3 +100,6 @@
             25% { transform: translateX(-5px) rotate(-3deg); }
             75% { transform: translateX(5px) rotate(3deg); }
     }
+        html{
+            cursor: url("../CURS.png"), auto;
+        }

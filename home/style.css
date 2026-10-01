@@ -83,6 +83,7 @@
             max-width: 100%;
             margin: 0;
             overflow-x: hidden;
+            cursor: url("../CURS.png"), auto;
     }
 
         .container {
@@ -110,7 +111,4 @@
                 width: 100% !important;
                 max-width: 100%;
         }
-    }
-            html{
-            cursor: url("../Website-Test/CURS.png"), auto;
     }
