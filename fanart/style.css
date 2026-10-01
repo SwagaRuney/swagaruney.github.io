@@ -82,3 +82,7 @@
             color: aliceblue;
             -webkit-text-stroke: 1px #000;
     }
+
+    .intro{
+        font-family: 'spongefont';font-size: 62px;
+    }

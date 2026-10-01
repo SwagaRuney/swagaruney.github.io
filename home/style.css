@@ -22,7 +22,7 @@
         }
         body {
             font-family: 'PixelOperatorMono';font-size: 22px;
-            background-image: url('https://images.steamusercontent.com/ugc/13569770212812975542/DDDDBB4561F8D26B4F5146FB69ED6F4712C7BE5C/?imw=116&imh=65&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true');
+            background-image: url('../home/images/homebg.gif');
             background-size: cover;
             background-color: lightblue;
 
