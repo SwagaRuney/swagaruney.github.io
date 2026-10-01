@@ -86,3 +86,6 @@
     .intro{
         font-family: 'spongefont';font-size: 62px;
     }
+    html{
+            cursor: url("../Website-Test/CURS.png"), auto;
+        }

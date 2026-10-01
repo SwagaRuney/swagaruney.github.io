@@ -2,13 +2,6 @@
             font-family: PixelOperatorMono;
             src: url("../PixelOperatorMonoHB8.ttf");
     }
-        @font-face {
-            font-family: spongefont;
-            src: url("../SomeTimeLater.otf");
-    }
-        .spongefont {
-            font-family: spongefont;
-    }
         canvas {
             image-rendering: pixelated;
             image-rendering: crisp-edges;
@@ -16,8 +9,7 @@
         marquee img {
             /*background-color: #e6f2ff;
             border: 14px solid #b2d1f1;
-            */
-            padding: 0;
+            */padding: 0;
             margin: 0;
     }
         marquee p {
@@ -30,7 +22,7 @@
         }
         body {
             font-family: 'PixelOperatorMono';font-size: 22px;
-            background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20221125/pngtree-product-photography-studioan-abstract-gradient-purple-room-with-empty-space-for-product-showcasing-photo-image_41432652.jpg');
+            background-image: url(../games/images/bg.gif);
             background-size: cover;
             background-color: lightblue;
 
@@ -38,7 +30,7 @@
             border: 14px solid #241e50; /* Thickness, style, color */
             padding: 0px; /* Space inside the border */
             min-height: 100vh; /* Ensure full height */
-            box-sizing: content-box; /* Include border in total size */
+            box-sizing: border-box; /* Include border in total size */
     }
         h1 {
             color: aliceblue;
@@ -82,6 +74,43 @@
             color: aliceblue;
             -webkit-text-stroke: 1px #000;
     }
-        html{
-            cursor: url("../Website-Test/CURS.png"), auto;
+        *, *::before, *::after {
+            box-sizing: border-box;
+    }
+
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            overflow-x: hidden;
+    }
+
+        .container {
+            width: 100%;
+            max-width: 100%;
+    }
+
+        marquee {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+    }
+
+        #video-container iframe {
+            max-width: 100%;
+    }
+
+        @media (max-width: 600px) {
+            .jumbotron {
+                padding: 1rem !important;
         }
+
+            .jumbotron iframe {
+                width: 100% !important;
+                max-width: 100%;
+        }
+    }
+            html{
+                cursor: url("../Website-Test/CURS.png"), auto;
+    }
