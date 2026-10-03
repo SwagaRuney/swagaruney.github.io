@@ -8,23 +8,24 @@
 
 <style>
 
-.NEW {
+.NEW, .NEW:after {
   /* Start the shake animation and make the animation last for 0.5 seconds */
   animation: color 15s;
-
+  
   /* When the animation is finished, start again */
   animation-iteration-count: infinite;
+  content: " (NEW)";
 }
 
 @keyframes color {
   0% {
-    color: #3b82f6; /* Blue */
+    color: #b177b1; /* Blue */
   }
   50% {
-    color: #800080; /* burple */
+    color: #f2ff00; /* burple */
   }
   100% {
-    color: #3b82f6; /* Blue */
+    color: #b177b1; /* Blue */
   }
 }
 
