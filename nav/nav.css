@@ -3,7 +3,7 @@
             src: url("../PixelOperatorMonoHB8.ttf");
     }
         body {
-            font-family: 'PixelOperatorMono';font-size: 16px;
+            font-family: 'PixelOperatorMono'; font-size: 16px;
     }
         html{
             cursor: url("../CURS.png"), auto;
