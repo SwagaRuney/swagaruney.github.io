@@ -7,28 +7,26 @@
 <base target="_top">
 
 <style>
-
 .NEW, .NEW:after {
-  /* Start the shake animation and make the animation last for 0.5 seconds */
-  animation: color 15s;
-  
-  /* When the animation is finished, start again */
-  animation-iteration-count: infinite;
-  content: " (NEW)";
-}
+    /* Start the shake animation and make the animation last for 0.5 seconds */
+    animation: color 15s;
+    
+    /* When the animation is finished, start again */
+    animation-iteration-count: infinite;
+    content: " (NEW)";
+  }
 
-@keyframes color {
-  0% {
-    color: #b177b1; /* Blue */
+  @keyframes color {
+    0% {
+      color: #b177b1; /* Blue */
+    }
+    50% {
+      color: #f2ff00; /* burple */
+    }
+    100% {
+      color: #b177b1; /* Blue */
+    }
   }
-  50% {
-    color: #f2ff00; /* burple */
-  }
-  100% {
-    color: #b177b1; /* Blue */
-  }
-}
-
 </style>
 
 <header style="margin-bottom: 24px; background: rgba(0, 0, 0, 0.82); padding: 0.75rem 1rem; text-align: center; box-shadow: 0 0 12px rgba(190, 20, 35, 0.45);">
