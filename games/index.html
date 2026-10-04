@@ -34,7 +34,6 @@
 <details>
     <summary>DeltaRune (Chapters 1-5)</summary>
     <p><b>DELTARUNE</b> is an indie RPG that expands on a parallel universe similar to Undertale. It features original and reappearing characters, locations, and challenges for players to explore.</p>
-    <button type="button" onclick="var frame = this.parentElement.querySelector('iframe'); if (frame.requestFullscreen) { frame.requestFullscreen(); } else if (frame.webkitRequestFullscreen) { frame.webkitRequestFullscreen(); } else if (frame.mozRequestFullScreen) { frame.mozRequestFullScreen(); }" style="font-family: PixelOperatorMono; display:block; margin:0 auto 12px; padding:8px 14px; border:0; border-radius:8px; background:#000000; color:white; cursor:pointer;">Full Screen</button>
     <iframe src="https://mollomm1.github.io/test/" title="Game" style="display:block; width:90vw; max-width:800px; height:600px; margin: auto; border:0" scrolling="no" allowfullscreen="true" allow="fullscreen"></iframe>
 </details>
 
@@ -44,7 +43,6 @@
 <details>
     <summary>Undertale</summary>
     <p>Undertale is a popular indie RPG created by Toby Fox. It features a unique combat system and a story that reacts to the player's choices, and nobody has to die.</p>
-    <button type="button" onclick="var frame = this.parentElement.querySelector('iframe'); if (frame.requestFullscreen) { frame.requestFullscreen(); } else if (frame.webkitRequestFullscreen) { frame.webkitRequestFullscreen(); } else if (frame.mozRequestFullScreen) { frame.mozRequestFullScreen(); }" style="font-family: PixelOperatorMono; display:block; margin:0 auto 12px; padding:8px 14px; border:0; border-radius:8px; background:#000000; color:white; cursor:pointer;">Full Screen</button>
     <iframe src="https://wigdos-inc.github.io/Undertale-HTML/" title="Game" style="display:block; width:90vw; max-width:800px; height:520px; margin:auto; border:0" scrolling="no" allowfullscreen="true" allow="fullscreen"></iframe>
 </details>
 
@@ -88,7 +86,6 @@
 <br>
 <br>
 
-
 <details>
     <summary>FNaF 3</summary>
     <p>FNaF 3 is a survival horror game where you play as a security guard trying to survive the night at Freddy Fazbear's Pizza.</p>
@@ -97,7 +94,6 @@
 
 <br>
 <br>
-
 
 <details>
     <summary>FNaF 4</summary>
@@ -141,10 +137,25 @@
     <iframe src="https://irv77.github.io/hd_fnaf/ucn/" title="Game" style="display:block; width:90vw; max-width:800px; height:520px; margin:auto; border:0" scrolling="no" allowfullscreen="true" allow="fullscreen"></iframe>
 </details>
 
-<br>
-<br>
-
 </div>
+
+<script>
+    document.querySelectorAll("details").forEach(function (game) {
+        var frame = game.querySelector("iframe");
+        if (!frame) return;
+
+        var button = document.createElement("button");
+        button.type = "button";
+        button.textContent = "Full Screen";
+        button.style.cssText = "font-family: PixelOperatorMono; display:block; margin:0 auto 12px; padding:8px 14px; border:0; border-radius:8px; background:#000000; color:white; cursor:pointer;";
+        button.addEventListener("click", function () {
+            if (frame.requestFullscreen) frame.requestFullscreen();
+            else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+            else if (frame.mozRequestFullScreen) frame.mozRequestFullScreen();
+        });
+        frame.insertAdjacentElement("beforebegin", button);
+    });
+</script>
 
 <footer>
   <p style="color: rgb(155, 155, 155); scale: 0.5;">Created by myself and my Computer Programming teacher. Thank you to everyone who supports me! here's to many more adventures together! <br>(All games are property of their respective owners. HD FNaF taken from https://github.com/irv77/hd_fnaf)</p>
