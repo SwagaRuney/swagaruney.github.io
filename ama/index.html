@@ -6,6 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ask me a question!</title>
 
+<meta property="og:title" content="SwagaRuney's Q&A Page">
+<meta property="og:description" content="Ask me anything! I know everything (?)">
+<meta property="og:image" content="https://media.tenor.com/LV2RkOxTdhkAAAAM/verity-verity-minecraft.gif">
+<meta property="og:type" content="website">
+
+
 <style>
 main{max-width:640px;margin:0 auto}
 </style>
@@ -29,6 +35,7 @@ main{max-width:640px;margin:0 auto}
 // ADD YOUR ANSWERS HERE. Newest first. Copy one block per answered question.
 const QA = [
   {q: 'What is this website?', a: 'This is a simple Q&A website where you can ask questions and get answers. You can submit your questions through the form above, and when I answer them, they will appear below.'},
+  {q: 'When will the songs in Swag\'s Surge be released for playable?', a: 'We are not exactly sure, probably some time this year, or EARLY next year(?)'}
 ];
 
 const list = document.getElementById('list');
@@ -46,7 +53,7 @@ f.addEventListener('submit', async e => {
   try {
     const r = await fetch(f.action, { method: 'POST', body: new FormData(f), headers: { Accept: 'application/json' } });
     if (!r.ok) throw 0;
-    f.reset(); s.textContent = 'Sent. I\u2019ll post an answer here.';
+    f.reset(); s.textContent = 'Sent. I\'9ll post an answer here.';
   } catch { s.textContent = 'Could not send. Please try again.'; }
   b.disabled = false;
 });
