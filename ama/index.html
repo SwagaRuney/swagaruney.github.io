@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask me a question!</title>
+
+<style>
+main{max-width:640px;margin:0 auto}
+</style>
+
+</head>
+<body>
+<main>
+  <h1>Ask me anything! i know everything(?)</h1>
+  <p class="lead">Send me a question. When I answer it, it appears below.</p>
+
+  <form id="f" action="https://formspree.io/f/xrpeelzz" method="POST">
+    <textarea name="question" id="q" rows="3" maxlength="500" placeholder="Type your question…" required></textarea>
+    <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="row"><span id="status" role="status"></span><button id="b" type="submit">Send question</button></div>
+  </form>
+
+  <div id="list"></div>
+</main>
+
+<script>
+// ADD YOUR ANSWERS HERE. Newest first. Copy one block per answered question.
+const QA = [
+  {q: 'What is this website?', a: 'This is a simple Q&A website where you can ask questions and get answers. You can submit your questions through the form above, and when I answer them, they will appear below.'},
+];
+
+const list = document.getElementById('list');
+if (!QA.length) list.innerHTML = '<p class="none">No answers yet :(</p>';
+QA.forEach(({q, a}) => {
+  const d = document.createElement('div'); d.className = 'qa';
+  const h = document.createElement('h2'); h.textContent = q;
+  const p = document.createElement('p'); p.textContent = a;
+  d.append(h, p); list.append(d);
+});
+
+const f = document.getElementById('f'), s = document.getElementById('status'), b = document.getElementById('b');
+f.addEventListener('submit', async e => {
+  e.preventDefault(); b.disabled = true; s.textContent = 'Sending…';
+  try {
+    const r = await fetch(f.action, { method: 'POST', body: new FormData(f), headers: { Accept: 'application/json' } });
+    if (!r.ok) throw 0;
+    f.reset(); s.textContent = 'Sent. I\u2019ll post an answer here.';
+  } catch { s.textContent = 'Could not send. Please try again.'; }
+  b.disabled = false;
+});
+</script>
+</body>
+</html>
