@@ -4,6 +4,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
 <title>Ask me a question!</title>
 
 <meta property="og:title" content="SwagaRuney's Q&A Page">
@@ -13,18 +14,20 @@
 
 
 <style>
-main{max-width:640px;margin:0 auto}
+main{text-align:center;}
+.hp { display: none !important; }
 </style>
 
 </head>
 <body>
 <main>
+  <iframe width="100%" style="border: none; " src="../nav/nav.html"></iframe>
   <h1>Ask me anything! i know everything(?)</h1>
   <p class="lead">Send me a question. When I answer it, it appears below.</p>
 
   <form id="f" action="https://formspree.io/f/xrpeelzz" method="POST">
     <textarea name="question" id="q" rows="3" maxlength="500" placeholder="Type your question…" required></textarea>
-    <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" hidden>
     <div class="row"><span id="status" role="status"></span><button id="b" type="submit">Send question</button></div>
   </form>
 

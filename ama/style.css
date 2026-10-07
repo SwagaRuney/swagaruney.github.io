@@ -1,0 +1,114 @@
+        @font-face {
+            font-family: PixelOperatorMono;
+            src: url("../PixelOperatorMonoHB8.ttf");
+    }
+        canvas {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+    }
+        marquee img {
+            /*background-color: #e6f2ff;
+            border: 14px solid #b2d1f1;
+            */padding: 0;
+            margin: 0;
+    }
+        marquee p {
+            margin: 0;
+            padding: 0;
+    }
+        summary {
+            color:aliceblue;
+            -webkit-text-stroke: 1px #000;
+        }
+        body {
+            font-family: 'PixelOperatorMono';font-size: 22px;
+            background-image: url(../games/images/bg.gif);
+            background-size: cover;
+            background-color: lightblue;
+
+            margin: 0; /* Remove default margin */
+            border: 14px solid #241e50; /* Thickness, style, color */
+            padding: 0px; /* Space inside the border */
+            min-height: 100vh; /* Ensure full height */
+            box-sizing: border-box; /* Include border in total size */
+    }
+        h1 {
+            color: aliceblue;
+            -webkit-text-stroke: 1px #000;
+    }
+        h2 {
+            color: aliceblue;
+            -webkit-text-stroke: 1px #000;
+    }
+        h3 {
+            color: aliceblue;
+            -webkit-text-stroke: 1px #000;
+    }
+        h4 {
+            color: aliceblue;
+            -webkit-text-stroke: 1px #000;
+    }
+        p {
+            color: aliceblue;
+            -webkit-text-stroke: 1px #000;
+    }
+        ul {
+            margin-bottom: 0;
+            text-align: center;
+            color: aliceblue;
+            -webkit-text-stroke: 1px #000;
+    }   
+        li {
+            margin-bottom: 0;
+            text-align: center;
+            color: aliceblue;
+            -webkit-text-stroke: 1px #000;
+    }
+        footer {
+            text-align: center;
+            padding: 3px;
+            --background-color: DarkSalmon;
+            color: white;
+    }
+        a {
+            color: aliceblue;
+            -webkit-text-stroke: 1px #000;
+    }
+        *, *::before, *::after {
+            box-sizing: border-box;
+    }
+
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            overflow-x: hidden;
+            cursor: url("../CURS.png"), auto;
+    }
+
+        .container {
+            width: 100%;
+            max-width: 100%;
+    }
+
+        marquee {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+    }
+
+        #video-container iframe {
+            max-width: 100%;
+    }
+
+        @media (max-width: 600px) {
+            .jumbotron {
+                padding: 1rem !important;
+        }
+
+            .jumbotron iframe {
+                width: 100% !important;
+                max-width: 100%;
+        }
+    }
