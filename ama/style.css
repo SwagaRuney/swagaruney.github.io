@@ -22,9 +22,7 @@
         }
         body {
             font-family: 'PixelOperatorMono';font-size: 22px;
-            background-image: url(../games/images/bg.gif);
-            background-size: cover;
-            background-color: lightblue;
+            background-color: #b2d1f1;
 
             margin: 0; /* Remove default margin */
             border: 14px solid #241e50; /* Thickness, style, color */
