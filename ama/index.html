@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="style.css">
 <title>Ask me a question!</title>
 
+<link rel="icon" type="image/x-icon" href="../images/marquee/spamton.gif">
 <meta property="og:title" content="SwagaRuney's Q&A Page">
 <meta property="og:description" content="Ask me anything! I know everything (?)">
 <meta property="og:image" content="https://media.tenor.com/LV2RkOxTdhkAAAAM/verity-verity-minecraft.gif">
@@ -38,17 +39,22 @@ main{text-align:center;}
 // uhh i dont have a database or anything, so this is just a static list of questions and answers. i will update it manually when i answer questions. if you want to see your question answered, please send it to me through the form above lol
 const QA = [
   {q: 'What is this website?', a: 'This is a simple Q&A website where you can ask questions and get answers. You can submit your questions through the form above, and when I answer them, they will appear below.'},
-  {q: 'When will the songs in Swag\'s Surge be released for playable?', a: 'We are not exactly sure, probably some time this year, or EARLY next year(?)'}
+  {q: 'When will the songs in Swag\'s Surge be released for playable?', a: 'We are not exactly sure, probably some time this year, or EARLY next year(?)'},
+  {q: 'When does Rotten to The Core come out?', a: '<img style="max-width: 20%; display: block; margin: 0 auto;" src="https://static2.klipy.com/ii/cfb42878805dcb270f51b28683e7455a/06/f3/m7LU6O1vMiBou.gif" alt="Rotten to the Core release image" loading="lazy">'}
 ];
 
 const list = document.getElementById('list');
-if (!QA.length) list.innerHTML = '<p class="none">No answers yet :(</p>';
-QA.forEach(({q, a}) => {
-  const d = document.createElement('div'); d.className = 'qa';
-  const h = document.createElement('h2'); h.textContent = q;
-  const p = document.createElement('p'); p.textContent = a;
-  d.append(h, p); list.append(d);
-});
+if (!QA.length) {
+  list.innerHTML = '<p class="none">No answers yet :(</p>';
+} else {
+  QA.forEach(({q, a}, index) => {
+    const d = document.createElement('div'); d.className = 'qa';
+    const h = document.createElement('h2'); h.textContent = `${index - 1 + 1}. ${q}`;
+    const p = document.createElement('p');
+    p.innerHTML = a;
+    d.append(h, p); list.append(d);
+  });
+}
 
 const f = document.getElementById('f'), s = document.getElementById('status'), b = document.getElementById('b');
 f.addEventListener('submit', async e => {
@@ -56,7 +62,7 @@ f.addEventListener('submit', async e => {
   try {
     const r = await fetch(f.action, { method: 'POST', body: new FormData(f), headers: { Accept: 'application/json' } });
     if (!r.ok) throw 0;
-    f.reset(); s.textContent = 'Sent. I\'9ll post an answer here.';
+    f.reset(); s.textContent = 'Sent. I\'ll post an answer here.';
   } catch { s.textContent = 'Could not send. Please try again.'; }
   b.disabled = false;
 });
