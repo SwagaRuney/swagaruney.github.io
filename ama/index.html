@@ -13,16 +13,20 @@
 <meta property="og:image" content="https://media.tenor.com/LV2RkOxTdhkAAAAM/verity-verity-minecraft.gif">
 <meta property="og:type" content="website">
 
-
 <style>
-main{text-align:center;}
-.hp { display: none !important; }
+  main {
+    text-align: center;
+  }
+
+  .hp {
+    display: none !important;
+  }
 </style>
 
 </head>
 <body>
 <main>
-  <iframe width="100%" style="border: none; " src="../nav/nav.html"></iframe>
+  <iframe width="100%" style="border: none;" src="../nav/nav.html"></iframe>
   <h1>Ask me anything! i know everything(?)</h1>
   <p class="lead">Send me a question. When I answer it, it appears below.</p>
 
@@ -36,35 +40,50 @@ main{text-align:center;}
 </main>
 
 <script>
-// uhh i dont have a database or anything, so this is just a static list of questions and answers. i will update it manually when i answer questions. if you want to see your question answered, please send it to me through the form above lol
 const QA = [
-  {q: 'What is this website?', a: 'This is a simple Q&A website where you can ask questions and get answers. You can submit your questions through the form above, and when I answer them, they will appear below.'},
-  {q: 'When will the songs in Swag\'s Surge be released for playable?', a: 'We are not exactly sure, probably some time this year, or EARLY next year(?)'},
-  {q: 'When does Rotten to The Core come out?', a: '<img style="max-width: 20%; display: block; margin: 0 auto;" src="https://static2.klipy.com/ii/cfb42878805dcb270f51b28683e7455a/06/f3/m7LU6O1vMiBou.gif" alt="Rotten to the Core release image" loading="lazy">'},
-  {q: 'Do you have a favorite FNF x Pibby song or have you thought about making a remix of your favorite song?', a: 'My favorite Pibby song PROBABLY has to be suffering siblings from Pibby apocalypse OR rarin to go from crashys own apocalypse, I haven\'t MADE remixes of songs but theres been some remixs made for my own mod, swags surge. songs like blueballed from Pibby corrupted or abomination (I\'m not 100% sure if this is a surge mix, it\'s yet to be confirmed but you SHOULD watch it when its released!)'
+  { q: 'What is this website?', a: 'This is a simple Q&A website where you can ask questions and get answers. You can submit your questions through the form above, and when I answer them, they will appear below.' },
+  { q: 'When will the songs in Swag\'s Surge be released for playable?', a: 'We are not exactly sure, probably some time this year, or EARLY next year(?)' },
+  { q: 'When does Rotten to The Core come out?', a: '<img style="max-width: 20%; display: block; margin: 0 auto;" src="https://static2.klipy.com/ii/cfb42878805dcb270f51b28683e7455a/06/f3/m7LU6O1vMiBou.gif" alt="Rotten to the Core release image" loading="lazy">' },
+  { q: 'Do you have a favorite FNF x Pibby song or have you thought about making a remix of your favorite song?', a: 'My favorite Pibby song PROBABLY has to be suffering siblings from Pibby apocalypse OR rarin to go from crashys own apocalypse, I haven\'t MADE remixes of songs but theres been some remixs made for my own mod, swags surge. songs like blueballed from Pibby corrupted or abomination (I\'m not 100% sure if this is a surge mix, it\'s yet to be confirmed but you SHOULD watch it when its released!)' }
 ];
 
 const list = document.getElementById('list');
+
 if (!QA.length) {
   list.innerHTML = '<p class="none">No answers yet :(</p>';
 } else {
-  QA.forEach(({q, a}, index) => {
-    const d = document.createElement('div'); d.className = 'qa';
-    const h = document.createElement('h2'); h.textContent = `${index - 1 + 1}. ${q}`;
-    const p = document.createElement('p');
-    p.innerHTML = a;
-    d.append(h, p); list.append(d);
-  });
+  list.innerHTML = QA.map(({ q, a }, index) => `
+    <article class="qa">
+      <h2>${index + 1}. ${q}</h2>
+      <div class="answer">${a}</div>
+    </article>
+  `).join('');
 }
 
-const f = document.getElementById('f'), s = document.getElementById('status'), b = document.getElementById('b');
+const f = document.getElementById('f');
+const s = document.getElementById('status');
+const b = document.getElementById('b');
+
 f.addEventListener('submit', async e => {
-  e.preventDefault(); b.disabled = true; s.textContent = 'Sending…';
+  e.preventDefault();
+  b.disabled = true;
+  s.textContent = 'Sending…';
+
   try {
-    const r = await fetch(f.action, { method: 'POST', body: new FormData(f), headers: { Accept: 'application/json' } });
-    if (!r.ok) throw 0;
-    f.reset(); s.textContent = 'Sent. I\'ll post an answer here.';
-  } catch { s.textContent = 'Could not send. Please try again.'; }
+    const r = await fetch(f.action, {
+      method: 'POST',
+      body: new FormData(f),
+      headers: { Accept: 'application/json' }
+    });
+
+    if (!r.ok) throw new Error('Submission failed');
+
+    f.reset();
+    s.textContent = 'Sent. I\'ll post an answer here.';
+  } catch (err) {
+    s.textContent = 'Could not send. Please try again.';
+  }
+
   b.disabled = false;
 });
 </script>
