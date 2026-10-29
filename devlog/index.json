@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "sample-lua-script",
+    "title": "Sample: my first Lua stage script",
+    "date": "2026-10-20",
+    "tag": "code",
+    "summary": "Replace this with your own post.",
+    "file": "sample-lua-script.md"
+  },
+  {
+    "slug": "sample-song-notes",
+    "title": "Sample: how I wrote a song",
+    "date": "2026-10-12",
+    "tag": "music",
+    "summary": "A template for talking about a track.",
+    "file": "sample-song-notes.md"
+  },
+  {
+    "slug": "sample-charting-lessons",
+    "title": "Sample: charting lessons",
+    "date": "2026-10-03",
+    "tag": "fun",
+    "summary": "A template for charting notes.",
+    "file": "sample-charting-lessons.md"
+  }
+]

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SwagaRuney Devlog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#15102b; --bg-2:#1f1840; --text:#efeaff; --muted:#a79fcf; --line:#342b66;
+          --music:#00e5ff; --code:#2bff3a; --chart:#ff4757; --misc:#d35bd0; }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; background:var(--bg); color:var(--text);
+         font:400 1.05rem/1.65 "IBM Plex Sans", system-ui, sans-serif; }
+  .wrap { max-width:760px; margin:0 auto; padding:2.5rem 1.25rem 4rem; }
+  h1, h2, h3, .pixel { font-family:"Silkscreen","Courier New",monospace; font-weight:700; }
+  h1 { font-size:clamp(1.8rem,6vw,2.8rem); margin:0 0 .35rem; }
+  .sub { color:var(--muted); margin:0 0 1.5rem; }
+  .note { width:1.1em; height:1.1em; flex:none; fill:currentColor; }
+  .note.music{color:var(--music)} .note.code{color:var(--code)} .note.chart{color:var(--chart)} .note.misc{color:var(--misc)}
+
+  .tools { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin-bottom:1.5rem; }
+  .chip, .tools input { font:inherit; font-size:.92rem; color:var(--text); background:var(--bg-2);
+         border:1px solid var(--line); border-radius:999px; padding:.3rem .8rem; }
+  .chip { cursor:pointer; display:inline-flex; align-items:center; gap:.4rem; }
+  .chip[aria-pressed="true"] { border-color:var(--text); }
+  .tools input { flex:1; min-width:9rem; border-radius:6px; padding:.4rem .7rem; }
+  .chip:focus-visible, .tools input:focus-visible, .list button:focus-visible, .back:focus-visible, .pn button:focus-visible
+    { outline:2px solid var(--text); outline-offset:2px; }
+
+  .list { list-style:none; margin:0; padding:0; }
+  .list button { all:unset; box-sizing:border-box; cursor:pointer; width:100%; display:flex; align-items:center; gap:.9rem;
+         padding:.85rem .9rem; border-left:4px solid transparent; opacity:.55;
+         transition:opacity .15s, transform .15s, background .15s; }
+  .list button:focus-visible { outline:2px solid var(--text); outline-offset:2px; }
+  .list button .note { width:1.7rem; height:1.7rem; }
+  .list .t { font-family:"Silkscreen",monospace; font-weight:700; font-size:1.15rem; line-height:1.25; display:block; color:var(--text); }
+  .list .m { color:var(--muted); font-size:.88rem; display:block; margin-top:.15rem; }
+  .list button[aria-selected="true"], .list button:hover { opacity:1; background:var(--bg-2); transform:translateX(10px); border-left-color:currentColor; }
+  .hint, .empty, .status { color:var(--muted); font-size:.92rem; }
+  .hint { margin-top:1.5rem; }
+  kbd { font:inherit; border:1px solid var(--line); border-radius:4px; padding:0 .4rem; background:var(--bg-2); }
+
+  .back, .pn button { all:unset; cursor:pointer; color:var(--muted); font-family:"Silkscreen",monospace; font-size:.95rem; }
+  .back:hover, .pn button:hover { color:var(--text); }
+  article h2 { font-size:clamp(1.5rem,5vw,2.2rem); line-height:1.2; margin:1.4rem 0 .4rem; }
+  article .meta { color:var(--muted); display:flex; align-items:center; gap:.5rem; margin-bottom:1.5rem; }
+  article p, article ul { max-width:65ch; }
+  article h3 { font-size:1.2rem; margin:2rem 0 .3rem; }
+  article h4 { font-size:1.05rem; margin:1.5rem 0 .2rem; }
+  article code { background:var(--bg-2); padding:.1rem .35rem; border-radius:4px; font-size:.92em; }
+  article pre { background:var(--bg-2); border:1px solid var(--line); border-radius:6px; padding:1rem; overflow-x:auto; line-height:1.5; }
+  article pre code { background:none; padding:0; }
+  article a { color:var(--music); }
+  article img { max-width:100%; height:auto; border-radius:6px; }
+  .pn { display:flex; justify-content:space-between; gap:1rem; margin-top:3rem; padding-top:1.2rem; border-top:1px solid var(--line); }
+  .pn [hidden] { visibility:hidden; display:block; }
+  @media (prefers-reduced-motion: reduce) { .list button { transition:none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>SwagaRuney's Devlog</h1>
+    <p class="sub">My notes on the content i create, modifications, etc!</p>
+  </header>
+  <main id="app"><p class="status">Loading posts...</p></main>
+</div>
+
+<script>
+/* Posts are listed in posts/index.json and written as Markdown files in posts/.
+   See README-devlog.txt for how to add one. */
+const TAGS = { music:"Music", code:"Code", fun:"Fun", misc:"Other" };
+const ROT = { music:0, code:90, fun:180, misc:270 };
+const icon = t => `<svg class="note ${t}" viewBox="0 0 24 24" aria-hidden="true" style="transform:rotate(${ROT[t]-90}deg)"><path d="M12 2 22 14h-6v8H8v-8H2z"/></svg>`;
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = d => new Date(d + "T12:00:00").toLocaleDateString(undefined, { year:"numeric", month:"short", day:"numeric" });
+const app = document.getElementById("app");
+
+let posts = [], filter = "all", query = "", sel = 0;
+const cache = {};
+
+/* Small Markdown renderer: headings, lists, code blocks, bold, italic, links, images. */
+function inline(s) {
+  const safe = u => /^(https?:\/\/|#|[\w./-])/i.test(u) && !/^\s*javascript:/i.test(u) ? u : "#";
+  return esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (_, a, u) => `<img src="${safe(u)}" alt="${a}" loading="lazy">`)
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, t, u) => `<a href="${safe(u)}" target="_blank" rel="noopener">${t}</a>`)
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*]+)\*/g, "$1<em>$2</em>");
+}
+function md(src) {
+  const out = []; let list = false, code = false, buf = [], para = [];
+  const flush = () => { if (para.length) { out.push(`<p>${inline(para.join(" "))}</p>`); para = []; } };
+  const endList = () => { if (list) { out.push("</ul>"); list = false; } };
+  for (const line of src.replace(/\r/g, "").split("\n")) {
+    if (line.trim().startsWith("```")) {
+      if (code) { out.push(`<pre><code>${esc(buf.join("\n"))}</code></pre>`); buf = []; code = false; }
+      else { flush(); endList(); code = true; }
+      continue;
+    }
+    if (code) { buf.push(line); continue; }
+    let m;
+    if ((m = line.match(/^(#{1,3})\s+(.*)/))) { flush(); endList(); const n = m[1].length + 2; out.push(`<h${n}>${inline(m[2])}</h${n}>`); }
+    else if ((m = line.match(/^\s*[-*]\s+(.*)/))) { flush(); if (!list) { out.push("<ul>"); list = true; } out.push(`<li>${inline(m[1])}</li>`); }
+    else if (!line.trim()) { flush(); endList(); }
+    else { endList(); para.push(line.trim()); }
+  }
+  flush(); endList();
+  if (code) out.push(`<pre><code>${esc(buf.join("\n"))}</code></pre>`);
+  return out.join("\n");
+}
+
+const visible = () => posts.filter(p =>
+  (filter === "all" || p.tag === filter) &&
+  (!query || (p.title + " " + p.summary).toLowerCase().includes(query.toLowerCase())));
+
+function renderList(keepFocus) {
+  const v = visible();
+  if (sel >= v.length) sel = Math.max(0, v.length - 1);
+  const chips = [["all", "All"], ...Object.entries(TAGS)].map(([k, l]) =>
+    `<button class="chip" data-f="${k}" aria-pressed="${filter === k}">${k === "all" ? "" : icon(k)}${l}</button>`).join("");
+  app.innerHTML = `
+    <div class="tools" role="group" aria-label="Filter posts">${chips}
+      <input id="q" type="search" placeholder="Search posts" aria-label="Search posts" value="${esc(query)}"></div>
+    ${v.length ? `<ul class="list" role="listbox" aria-label="Posts">${v.map((p, i) => `
+      <li role="presentation"><button role="option" data-i="${i}" aria-selected="${i === sel}" style="color:var(--${p.tag})">
+        ${icon(p.tag)}<span><span class="t">${esc(p.title)}</span><span class="m">${fmt(p.date)} · ${esc(p.summary)}</span></span>
+      </button></li>`).join("")}</ul>
+      <p class="hint">Use <kbd>↑</kbd> <kbd>↓</kbd> to browse and <kbd>Enter</kbd> to read.</p>`
+      : `<p class="empty">No posts match. Clear the search or pick another category.</p>`}`;
+  app.querySelectorAll(".chip").forEach(b => b.onclick = () => { filter = b.dataset.f; sel = 0; renderList(); });
+  const q = document.getElementById("q");
+  q.oninput = () => { query = q.value; sel = 0; renderList(true); };
+  if (keepFocus) { q.focus(); q.setSelectionRange(q.value.length, q.value.length); }
+  app.querySelectorAll(".list button").forEach(b => {
+    b.onclick = () => { location.hash = v[+b.dataset.i].slug; };
+    b.onmouseenter = () => { sel = +b.dataset.i; mark(); };
+  });
+}
+const mark = () => app.querySelectorAll(".list button").forEach((b, i) => b.setAttribute("aria-selected", i === sel));
+
+async function renderPost(slug) {
+  const i = posts.findIndex(p => p.slug === slug);
+  if (i < 0) { location.hash = ""; return; }
+  const p = posts[i], newer = posts[i - 1], older = posts[i + 1];
+  app.innerHTML = `<p class="status">Loading...</p>`;
+  let html;
+  try {
+    if (!cache[p.file]) {
+      const r = await fetch("posts/" + p.file);
+      if (!r.ok) throw new Error(r.status);
+      cache[p.file] = md(await r.text());
+    }
+    html = cache[p.file];
+  } catch (e) {
+    html = `<p>Could not load <code>posts/${esc(p.file)}</code>. Check that the file exists and the name matches index.json.</p>`;
+  }
+  if (location.hash.slice(1) !== slug) return;
+  app.innerHTML = `
+    <button class="back" id="back">&lt; Back to posts</button>
+    <article><h2>${esc(p.title)}</h2>
+      <div class="meta">${icon(p.tag)}<span>${TAGS[p.tag] || ""} · ${fmt(p.date)}</span></div>${html}</article>
+    <nav class="pn" aria-label="More posts">
+      <button id="newer" ${newer ? "" : "hidden"}>&lt; ${newer ? esc(newer.title) : ""}</button>
+      <button id="older" ${older ? "" : "hidden"}>${older ? esc(older.title) : ""} &gt;</button>
+    </nav>`;
+  document.getElementById("back").onclick = () => { location.hash = ""; };
+  if (newer) document.getElementById("newer").onclick = () => { location.hash = newer.slug; };
+  if (older) document.getElementById("older").onclick = () => { location.hash = older.slug; };
+  document.title = p.title + " | SwagaRuney's Devlog";
+  window.scrollTo(0, 0);
+}
+
+function route() {
+  const slug = location.hash.slice(1);
+  if (slug) renderPost(slug);
+  else { document.title = "SwagaRuney's Devlog"; renderList(); }
+}
+
+document.addEventListener("keydown", e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const slug = location.hash.slice(1), v = visible();
+  if (!slug) {
+    if (e.target.id === "q" && e.key !== "ArrowDown") return;
+    if (e.key === "ArrowDown" && v.length) { if (e.target.id === "q") e.target.blur(); sel = (sel + 1) % v.length; mark(); e.preventDefault(); }
+    else if (e.key === "ArrowUp" && v.length) { sel = (sel - 1 + v.length) % v.length; mark(); e.preventDefault(); }
+    else if (e.key === "Enter" && v.length && e.target.tagName !== "BUTTON") location.hash = v[sel].slug;
+  } else {
+    const i = posts.findIndex(p => p.slug === slug);
+    if (e.key === "Escape") location.hash = "";
+    else if (e.key === "ArrowLeft" && posts[i - 1]) location.hash = posts[i - 1].slug;
+    else if (e.key === "ArrowRight" && posts[i + 1]) location.hash = posts[i + 1].slug;
+  }
+});
+
+fetch("posts/index.json").then(r => { if (!r.ok) throw 0; return r.json(); }).then(data => {
+  posts = data.sort((a, b) => b.date.localeCompare(a.date));
+  window.addEventListener("hashchange", route);
+  route();
+}).catch(() => {
+  app.innerHTML = `<p>Could not load <code>posts/index.json</code>. If you opened this file straight from your computer, run a local server instead (for example <code>python -m http.server</code>) or view it on GitHub Pages.</p>`;
+});
+</script>
+</body>
+</html>
